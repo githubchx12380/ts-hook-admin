@@ -19,7 +19,7 @@ const route:RoutePages = [
         title:'添加分类',
         children:[
             {
-                url:'category',
+                url:'/category',
                 components:category,
                 title:'分类列表'
             }
