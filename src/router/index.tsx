@@ -2,17 +2,24 @@ import Layout from '../Layout'
 
 import category from '../pages/category'
 import user from '../pages/user'
-
+import Login from '../pages/Login'
 interface RoutePage {
-    url:string,
-    components:any,
-    icon?:string,
-    title:string
-    children?:[RoutePage]
+    url:string,            //跳转路径
+    components:any,        //对应的组件
+    icon?:string,          //ico
+    title:string,          //title
+    isMenuHide?:boolean,   //是否隐藏于侧边栏
+    children?:[RoutePage]  //子路由
 }
 type RoutePages = Array<RoutePage>
 
 const route:RoutePages = [
+    {
+        url:'/login',
+        components:Login,
+        title:'用户登录',
+        isMenuHide:true,
+    },
     {
         url:'/Layout',
         components:Layout,

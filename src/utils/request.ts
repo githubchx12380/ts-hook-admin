@@ -1,11 +1,13 @@
 import { message } from 'antd'
 const BaseUrl:string = 'http://localhost:1337/admin/api'
-
+interface headers {
+    header:string
+}
 interface setConfig {
     method:string,
-    body?:any,
-    headers?:any,
-    query?:any
+    body?:object | string,
+    headers?:object,
+    query?:object
 }
 
 function queryString(method:string,body:any):string {
@@ -31,9 +33,8 @@ const request = (url:string,config?:setConfig) => {
         querystring = queryString(config.method,config.query)
     }
     
-    return fetch(BaseUrl + url + querystring,config).then(res => {
+    return fetch(BaseUrl + url + querystring,<object>config).then(res => {
         if(res.ok) {
-            
             return res.json()
         }else{
             throw new Error('Error ...')
