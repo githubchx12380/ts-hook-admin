@@ -1,0 +1,23 @@
+.container{
+    background-color: #001529;
+    height: 100vh;
+    .cart_container{
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+    }
+}
+.login_form {
+    max-width: 300px;
+    margin: 0 auto;
+}
+.login_form_forgot {
+  float: right;
+}
+.ant_col_rtl .login_form_forgot {
+  float: left;
+}
+.login_form_button {
+  width: 100%;
+}

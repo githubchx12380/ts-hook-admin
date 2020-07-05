@@ -5,7 +5,6 @@ import Category from '../pages/category'
 import User from '../pages/user'
 import { Layout, Menu, Breadcrumb } from 'antd';
 import router from '../router'
-import Login from '../pages/Login'
 import {
   UserOutlined,
 } from '@ant-design/icons';
@@ -24,13 +23,12 @@ const LoyoutDefault:React.FC = (props:any) => {
       props.history.push(pages + page)
     }
     return (
-      
         <>
-          <Route exact path="/login" component={Login}></Route>
           <Layout style={{ minHeight: '100vh' }}>
               <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
                 <div className={styles.logo} />
                 <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+                  {/* 导路由表,动态渲染侧边栏 */}
                   {
                     router.map((item,index) => !item.isMenuHide && (!item.children ? <Menu.Item key={index} icon={<UserOutlined />}>{item.title}
                       </Menu.Item> :  <SubMenu key={index} icon={<UserOutlined />}  title={item.title}>
@@ -54,15 +52,15 @@ const LoyoutDefault:React.FC = (props:any) => {
                 </Breadcrumb>
                 <div className={styles.site_layout_background} style={{ padding: 24, minHeight: 360 }}>
                   <Switch>
-                    <Route exact path="/Layout/category" component={Category} />
-                    <Route exact path="/Layout/adduser" component={User} />
+                    <Route  path="/Layout/category" component={Category} />
+                    <Route  path="/Layout/adduser" component={User} />
                   </Switch> 
                 </div>
               </Content>
               <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
             </Layout>
           </Layout>
-      </>
+        </>
     )
 }
 
