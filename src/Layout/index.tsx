@@ -10,7 +10,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 
-const { Header, Content, Footer, Sider } = Layout;
+const {  Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
 const LoyoutDefault:React.FC = (props:any) => {
@@ -32,10 +32,10 @@ const LoyoutDefault:React.FC = (props:any) => {
                 router.map((item,index) => !item.children ? <Menu.Item key={index}>
                   </Menu.Item> :  <SubMenu key={index} icon={<UserOutlined />}  title={item.title}>
                     {
-                      item.children.map((itemRoute,indexRoute) => 
+                      item.children.map(itemRoute => 
                         <Menu.Item 
                           onClick={() => RouterPageHistory(item.url,itemRoute.url)} 
-                          key={indexRoute}>{itemRoute.title}
+                          key={index}>{itemRoute.title}
                         </Menu.Item>
                       )
                     }
@@ -44,7 +44,6 @@ const LoyoutDefault:React.FC = (props:any) => {
             </Menu>
           </Sider>
         <Layout className="site-layout">
-          <Header className={styles.site_layout_background} style={{ padding: 0 }} />
           <Content style={{ margin: '0 16px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>User</Breadcrumb.Item>
