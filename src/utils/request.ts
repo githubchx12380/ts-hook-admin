@@ -1,14 +1,6 @@
 import { message } from 'antd'
 const BaseUrl:string = 'http://localhost:1337/admin/api'
-interface headers {
-    header:string
-}
-interface setConfig {
-    method:string,
-    body?:object | string,
-    headers?:object,
-    query?:object
-}
+
 
 function queryString(method:string,body:any):string {
     if(method === 'get' || method === 'GET') {
@@ -24,25 +16,30 @@ function queryString(method:string,body:any):string {
     return ''
 }
 
-const request = (url:string,config?:setConfig) => {
+const request = (url:string,config?:any ) => {
     let querystring = ''
     if(config && config.body) {
         config.body = queryString(config.method,config.body)
+        config.headers = {...config.headers,'content-type': 'application/json'}
         
     }else if(config && config.query) {
         querystring = queryString(config.method,config.query)
     }
     
-    return fetch(BaseUrl + url + querystring,<object>config).then(res => {
+    return fetch(BaseUrl + url + querystring,config).then(res => {
         if(res.ok) {
+            
             return res.json()
         }else{
             throw new Error('Error ...')
         }
     }).then(result => {
-        
+        if(result.code !== 200) {
+            message.error(result.msg)
+        }
         return result
     }).catch(err => {
+        
         message.error('errorMessage')
     })
 }
