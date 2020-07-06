@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styles from './index.module.scss'
 import { withRouter,Route,Switch } from 'react-router-dom'
-import Category from '../pages/category'
+import flight from '../pages/flight'
 import User from '../pages/user'
 import { Layout, Menu, Breadcrumb } from 'antd';
 import router from '../router'
@@ -52,7 +52,7 @@ const LoyoutDefault:React.FC = (props:any) => {
                 </Breadcrumb>
                 <div className={styles.site_layout_background} style={{ padding: 24, minHeight: 360 }}>
                   <Switch>
-                    <Route  path="/Layout/category" component={Category} />
+                    <Route  path="/Layout/flight" component={flight} />
                     <Route  path="/Layout/adduser" component={User} />
                   </Switch> 
                 </div>

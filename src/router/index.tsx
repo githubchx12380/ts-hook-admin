@@ -1,6 +1,6 @@
 import Layout from '../Layout'
 
-import category from '../pages/category'
+import flight from '../pages/flight'
 import user from '../pages/user'
 import Login from '../pages/Login'
 interface RoutePage {
@@ -23,12 +23,12 @@ const route:RoutePages = [
     {
         url:'/Layout',
         components:Layout,
-        title:'添加分类',
+        title:'机票管理',
         children:[
             {
-                url:'/category',
-                components:category,
-                title:'分类列表'
+                url:'/flight',
+                components:flight,
+                title:'机票列表'
             }
         ]
     },

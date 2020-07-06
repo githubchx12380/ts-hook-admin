@@ -24,6 +24,8 @@ const request = (url:string,config?:any ) => {
         
     }else if(config && config.query) {
         querystring = queryString(config.method,config.query)
+       
+        
     }
     
     return fetch(BaseUrl + url + querystring,config).then(res => {

@@ -10,9 +10,9 @@ const Login:React.FC = (props:any) => {
     function onFinish() {
         userLogin(model).then(res => {
             if(res.code === 200) {
-                sessionStorage.setItem('token',res.token)
-                sessionStorage.setItem('id',res.id)
-                console.log(props.history.replace('/Layout'));
+                sessionStorage.setItem('token',res.data.token)
+                sessionStorage.setItem('id',res.data.id)
+                props.history.replace('/Layout')
             }
         })
     }
