@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Radio,Tag, Divider } from 'antd';
-import { flightList } from '../../api/flight'
-
+import { Table, Radio, Divider } from 'antd';
+import { flightList,CityList } from '../../api/flight'
+import SelectComponent from '../../components/select'
 
 const rowSelection = {
   onChange: (selectedRowKeys:any, selectedRows:any) => {
@@ -16,13 +16,14 @@ const rowSelection = {
 //点击编辑或删除
 
 const Flight:React.FC = () => {
-     
+    
   const [data,setData] = useState([])
   const [total,setTotal] = useState(0)
+  let   [city,setCity] = useState([])
   const [selectionType, setSelectionType] = useState('checkbox');
   const [model,setModel] = useState({
       page:1,
-      limit:10,
+      limit:8,
       price:1000,
       arrcode:'',
       depcode:'',
@@ -71,11 +72,19 @@ const Flight:React.FC = () => {
         ),
       },
   ];
+  //改变页数的回调
   function onChangepage(page:number,pagesize:number | undefined) {
     model.page = page
     setModel(model)
     getFlightInfo()
   }
+  //改变每页数量的回调
+  function onChangesize(current:any,size:number) {
+    model.limit = size
+    setModel(model)
+    getFlightInfo()
+  }
+  //发送请求获取飞机票筛选数据
   function getFlightInfo() { 
     setLoading(true);
     flightList(model).then(res => {
@@ -91,41 +100,65 @@ const Flight:React.FC = () => {
         },500)
     })
   }
-  useEffect(() => {
+  //获取城市数据
+  async function getCityList() {
+    const res =  await CityList()
+    city = res.data
+    setCity(city)
+    model.depcode = city[0]['citycode']
+    setModel(model)
     getFlightInfo()
+    
+    
+  }
+   useEffect(() => {
+      getCityList()
+      
   },[])
   return (
-    <div>
-      <Radio.Group
-        onChange={({ target: { value } }) => {
-          setSelectionType(value);          
-        }}
-        value={selectionType}
-      >
-        <Radio value="checkbox">Checkbox</Radio>
-        <Radio value="radio">radio</Radio>
-      </Radio.Group>
+    <>
+       {
+           !!city.length &&  <div>
+            <Radio.Group
+                onChange={({ target: { value } }) => {
+                setSelectionType(value);          
+                }}
+                value={selectionType}
+            >
+                <Radio value="checkbox">Checkbox</Radio>
+                <Radio value="radio">radio</Radio>
+                <SelectComponent data={city} onChangeCity={((citycode:string) => {
+                    model.depcode = citycode
+                    setModel(model)
+                    getFlightInfo()
+                    
+                })} />
+            </Radio.Group>
+            <Divider />
 
-      <Divider />
-
-      <Table
-        rowSelection={{
-            type: selectionType,
-            ...rowSelection,
-        }}
-        columns={columns}
-        dataSource={data}
-        pagination={
-            {
-                total,
-                defaultPageSize:model.limit,
-                onChange:(page,pagesize) => onChangepage(page,pagesize)
-            }
-        }
-        loading={loading}
-      >
-      </Table>
-    </div>
+            <Table
+                rowSelection={{
+                    type: selectionType,
+                    ...rowSelection,
+                }}
+                columns={columns}
+                dataSource={data}
+                pagination={
+                    {
+                        total,
+                        defaultPageSize:model.limit,
+                        onChange:(page,pagesize) => onChangepage(page,pagesize),
+                        onShowSizeChange:(current,size) => onChangesize(current,size),
+                        pageSizeOptions:['8','10','20','50','100'],
+                        hideOnSinglePage:true
+                    }
+                }
+                loading={loading}
+            >
+            </Table>
+        </div>
+       }
+    </>
   );
   function handleitem(record:any,state:string) {
     

@@ -11,3 +11,12 @@ export const flightList = (query:object) => {
         query,
     })
 }
+
+export const CityList = () => {
+    return request('/air/citylist',{
+        method:'get',
+        headers:{
+            'x-token':token
+        },
+    })
+}
